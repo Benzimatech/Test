@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Added Meta Tags -->
+    <meta name="description" content="Earn tokens by completing simple tasks and through referrals. Join our platform to start earning today!">
+    <meta name="keywords" content="earn tokens, earn crypto, referral program, crypto tasks">
+    <meta name="author" content="Earning Site">
+    <meta property="og:title" content="Earn Tokens">
+    <meta property="og:description" content="Earn tokens by completing simple tasks and through referrals">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#00ff66">
+    
+    <title>Earn Tokens</title>
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Custom Alert -->
+    <div id="custom-alert" class="hidden">
+        <div class="alert-content card">
+            <p id="alert-message"></p>
+            <button onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+
+    <!-- Auth Section -->
+    <section id="auth-section" class="section">
+        <div class="auth-container card">
+            <h1>Earning Site</h1>
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
+            </div>
+            
+            <form id="login-form" class="auth-form">
+                <input type="text" placeholder="Username" id="login-username" required>
+                <input type="password" placeholder="Password" id="login-password" required>
+                <button type="submit">Login</button>
+            </form>
+
+            <form id="register-form" class="auth-form hidden">
+                <input type="text" placeholder="Username" id="register-username" required>
+                <input type="password" placeholder="Password" id="register-password" required>
+                <input type="text" placeholder="Referral Code (Optional)" id="register-referral">
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Main App Sections -->
+    <div id="app-sections" class="hidden">
+        <!-- Home Section -->
+        <section id="home-section" class="section">
+            <div class="user-info card">
+                <h2>Welcome, <span id="username-display"></span></h2>
+                <div class="balance">
+                    <p>Balance: <span id="balance-display"></span> tokens</p>
+                </div>
+            </div>
+
+            <!-- Description Card -->
+            <div class="description-card card">
+                <div class="description-header">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>About Us</h3>
+                </div>
+                <div class="description-content">
+                    <div class="version-info">
+                        <span class="version-tag">Version 1.0.0</span>
+                        <span class="update-date">Last Updated: February 22, 2025</span>
+                    </div>
+                    <p>Our platform helps users to earn by completing simple tasks and through referrals. Start your earning journey today!</p>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <i class="fas fa-tasks"></i>
+                            <span>Complete Simple Tasks</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Earn Through Referrals</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-wallet"></i>
+                            <span>Easy Withdrawals</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Earn Section -->
+        <section id="earn-section" class="section hidden">
+            <h2>Earn Tokens</h2>
+            <div id="tasks-container"></div>
+        </section>
+
+        <!-- Referral Section -->
+        <section id="referral-section" class="section hidden">
+            <h2>Referral Program</h2>
+            <div class="referral-info card">
+                <p>Your Referral Code: <span id="referral-code"></span></p>
+                <button onclick="copyReferralCode()">Copy Code</button>
+                <p>Total Referrals: <span id="referral-count">0</span></p>
+            </div>
+            <div class="referral-history card">
+                <h3>Referral History</h3>
+                <div id="referral-list"></div>
+            </div>
+        </section>
+
+        <!-- Withdrawal Section -->
+        <section id="withdrawal-section" class="section hidden">
+            <h2>Withdraw Tokens</h2>
+            <form id="withdrawal-form" class="card">
+                <input type="text" placeholder="Wallet UserID" id="wallet-userid" required>
+                <input type="number" placeholder="Amount" id="withdrawal-amount" required>
+                <input type="password" placeholder="Account Password" id="withdrawal-password" required>
+                <button type="submit">Submit Withdrawal</button>
+            </form>
+        </section>
+
+        <!-- Admin Section -->
+        <section id="admin-section" class="section hidden">
+            <h2>Admin Dashboard</h2>
+            <div class="admin-stats">
+                <div class="stat-card card">
+                    <h3>Total Users</h3>
+                    <p id="total-users">0</p>
+                </div>
+                <div class="stat-card card">
+                    <h3>Active Users</h3>
+                    <p id="active-users">0</p>
+                </div>
+                <div class="stat-card card">
+                    <h3>Total Tokens</h3>
+                    <p id="total-tokens">0</p>
+                </div>
+            </div>
+
+            <div class="withdrawal-requests card">
+                <h3>Withdrawal Requests</h3>
+                <input type="date" id="withdrawal-date-filter">
+                <div id="withdrawal-requests-list"></div>
+            </div>
+
+            <div class="top-users card">
+                <h3>Top Users</h3>
+                <div id="top-token-users"></div>
+                <div id="top-referral-users"></div>
+            </div>
+        </section>
+
+        <!-- Leaderboard Section -->
+        <section id="leaderboard-section" class="section hidden">
+            <h2>Leaderboard</h2>
+            <div class="leaderboard-tabs">
+                <button class="leaderboard-tab active" onclick="switchLeaderboardTab('tokens')">Tokens</button>
+                <button class="leaderboard-tab" onclick="switchLeaderboardTab('referrals')">Referrals</button>
+            </div>
+            <div id="token-leaderboard" class="card"></div>
+            <div id="referral-leaderboard" class="card hidden"></div>
+        </section>
+
+        <!-- History Section -->
+        <section id="history-section" class="section hidden">
+            <h2>Withdrawal History</h2>
+            <div id="withdrawal-history" class="card"></div>
+        </section>
+
+        <!-- Navigation Bar -->
+        <nav class="bottom-nav">
+            <button onclick="switchSection('home')" class="nav-btn active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button onclick="switchSection('earn')" class="nav-btn">
+                <i class="fas fa-coins"></i>
+                <span>Earn</span>
+            </button>
+            <button onclick="switchSection('referral')" class="nav-btn">
+                <i class="fas fa-users"></i>
+                <span>Refer</span>
+            </button>
+            <button onclick="switchSection('withdrawal')" class="nav-btn">
+                <i class="fas fa-wallet"></i>
+                <span>Withdraw</span>
+            </button>
+            <button onclick="switchSection('leaderboard')" class="nav-btn">
+                <i class="fas fa-trophy"></i>
+                <span>Leaderboard</span>
+            </button>
+            <button onclick="switchSection('history')" class="nav-btn">
+                <i class="fas fa-history"></i>
+                <span>History</span>
+            </button>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
